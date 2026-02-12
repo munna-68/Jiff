@@ -1,20 +1,71 @@
+body {
+  background-color: #0b090b;
+}
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .centered-image {
-    width: 480px;
-    height: 480px;
-    object-fit: cover;
-    margin-bottom: 10px;
+  width: 480px;
+  height: 480px;
+  object-fit: cover;
+  margin-bottom: 10px;
 }
 
 .centered-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.recycle-btn {
+  background-color: #f31b5b;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease;
+  outline: none;
+  margin-top: 24px;
+}
+
+.recycle-btn:hover {
+  background-color: #9c143d;
+}
+
+.recycle-btn:active {
+  transform: scale(0.95);
+}
+
+.recycle-icon {
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+}
+
+@keyframes spinCycle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.recycle-icon.spin-once {
+  animation: spinCycle 1s ease-in-out;
 }
