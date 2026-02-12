@@ -1,19 +1,9 @@
 const recycleButton = document.querySelector(".recycle-btn");
 const recycleIcon = document.querySelector(".recycle-icon");
 const img = document.querySelector("img");
+const loadingIndicator = document.querySelector(".loading-indicator");
 
-document.addEventListener("DOMContentLoaded", () => {
-  fetch(
-    `https://api.giphy.com/v1/gifs/translate?api_key=9u65p4LmGldePxWFl3g47ygqlqpM8Bzb&s=${getRandomPhrase()}`,
-  )
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (response) {
-      img.src = response.data.images.original.url;
-    });
-});
-
+const API_KEY = "9u65p4LmGldePxWFl3g47ygqlqpM8Bzb";
 const gifPhrases = [
   "dogzoomies",
   "confusedreaction",
@@ -71,16 +61,39 @@ function getRandomPhrase() {
   return gifPhrases[randomIndex];
 }
 
-recycleButton.addEventListener("click", () => {
-  fetch(
-    `https://api.giphy.com/v1/gifs/translate?api_key=9u65p4LmGldePxWFl3g47ygqlqpM8Bzb&s=${getRandomPhrase()}`,
-  )
+function buildGifUrl() {
+  return `https://api.giphy.com/v1/gifs/translate?api_key=${API_KEY}&s=${getRandomPhrase()}`;
+}
+
+function showLoading() {
+  loadingIndicator.classList.remove("hidden");
+  recycleButton.disabled = true;
+}
+
+function hideLoading() {
+  loadingIndicator.classList.add("hidden");
+  recycleButton.disabled = false;
+}
+
+function requestGif() {
+  showLoading();
+  fetch(buildGifUrl())
     .then(function (response) {
       return response.json();
     })
     .then(function (response) {
       img.src = response.data.images.original.url;
+    })
+    .catch(function (error) {
+      console.error("Unable to load GIF:", error);
+      hideLoading();
     });
+}
+
+document.addEventListener("DOMContentLoaded", requestGif);
+
+recycleButton.addEventListener("click", () => {
+  requestGif();
   recycleIcon.classList.remove("spin-once");
   void recycleIcon.offsetWidth;
   recycleIcon.classList.add("spin-once");
@@ -88,4 +101,12 @@ recycleButton.addEventListener("click", () => {
 
 recycleIcon.addEventListener("animationend", () => {
   recycleIcon.classList.remove("spin-once");
+});
+
+img.addEventListener("load", () => {
+  hideLoading();
+});
+
+img.addEventListener("error", () => {
+  hideLoading();
 });

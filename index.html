@@ -9,10 +9,16 @@
   </head>
   <body>
     <div class="container">
-      <img alt="Gif" class="centered-image" />
+      <div class="image-wrapper">
+        <img alt="Gif" class="centered-image" />
+        <div class="loading-indicator hidden" role="status" aria-live="polite">
+          <div class="spinner" aria-hidden="true"></div>
+          <span class="loading-label">Loading GIF</span>
+        </div>
+      </div>
       <button class="recycle-btn">
         <span class="recycle-icon">♻</span>
-        Recycle
+        Randomize
       </button>
     </div>
   </body>
