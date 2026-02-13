@@ -9,6 +9,12 @@
   </head>
   <body>
     <div class="container">
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search Gifs" />
+
+        <button class="search-btn">Search</button>
+      </div>
+
       <div class="image-wrapper">
         <img alt="Gif" class="centered-image" />
         <div class="loading-indicator hidden" role="status" aria-live="polite">
@@ -16,8 +22,8 @@
           <span class="loading-label">Loading GIF</span>
         </div>
       </div>
-      <button class="recycle-btn">
-        <span class="recycle-icon">♻</span>
+      <button class="randomize-btn">
+        <span class="randomize-icon">♻</span>
         Randomize
       </button>
     </div>

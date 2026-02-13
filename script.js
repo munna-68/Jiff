@@ -1,7 +1,9 @@
-const recycleButton = document.querySelector(".recycle-btn");
-const recycleIcon = document.querySelector(".recycle-icon");
+const randomizeButton = document.querySelector(".randomize-btn");
+const randomizeIcon = document.querySelector(".randomize-icon");
 const img = document.querySelector("img");
 const loadingIndicator = document.querySelector(".loading-indicator");
+const searchInput = document.querySelector(".search-input");
+const searchButton = document.querySelector(".search-btn");
 
 const API_KEY = "9u65p4LmGldePxWFl3g47ygqlqpM8Bzb";
 const gifPhrases = [
@@ -61,23 +63,29 @@ function getRandomPhrase() {
   return gifPhrases[randomIndex];
 }
 
-function buildGifUrl() {
-  return `https://api.giphy.com/v1/gifs/translate?api_key=${API_KEY}&s=${getRandomPhrase()}`;
+function buildGifUrl(searchString) {
+  let url;
+  if (searchString) {
+    url = `https://api.giphy.com/v1/gifs/translate?api_key=${API_KEY}&s=${searchString}`;
+  } else {
+    url = `https://api.giphy.com/v1/gifs/translate?api_key=${API_KEY}&s=${getRandomPhrase()}`;
+  }
+  return url;
 }
 
 function showLoading() {
   loadingIndicator.classList.remove("hidden");
-  recycleButton.disabled = true;
+  randomizeButton.disabled = true;
 }
 
 function hideLoading() {
   loadingIndicator.classList.add("hidden");
-  recycleButton.disabled = false;
+  randomizeButton.disabled = false;
 }
 
-function requestGif() {
+function requestGif(searchString) {
   showLoading();
-  fetch(buildGifUrl())
+  fetch(buildGifUrl(searchString))
     .then(function (response) {
       return response.json();
     })
@@ -92,15 +100,25 @@ function requestGif() {
 
 document.addEventListener("DOMContentLoaded", requestGif);
 
-recycleButton.addEventListener("click", () => {
-  requestGif();
-  recycleIcon.classList.remove("spin-once");
-  void recycleIcon.offsetWidth;
-  recycleIcon.classList.add("spin-once");
+searchButton.addEventListener("click", () => {
+  if (searchInput.value) {
+    let searchRequest = searchInput.value.trim();
+    console.log(searchRequest);
+    requestGif(searchRequest);
+  } else {
+    console.log("No Input value");
+  }
 });
 
-recycleIcon.addEventListener("animationend", () => {
-  recycleIcon.classList.remove("spin-once");
+randomizeButton.addEventListener("click", () => {
+  requestGif();
+  randomizeIcon.classList.remove("spin-once");
+  void randomizeIcon.offsetWidth;
+  randomizeIcon.classList.add("spin-once");
+});
+
+randomizeIcon.addEventListener("animationend", () => {
+  randomizeIcon.classList.remove("spin-once");
 });
 
 img.addEventListener("load", () => {
